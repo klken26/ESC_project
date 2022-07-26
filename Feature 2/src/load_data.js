@@ -23,6 +23,7 @@ function sort_data(data){
   }
 
 function Load_data() {
+
   //add prop here when needed 
   const [prices, setPrices] = useState([])
   const [completed, setCompleted] = useState(true)
@@ -37,25 +38,36 @@ function Load_data() {
   const currency = params.get('currency');
   const guests = params.get("guests");
 
+  console.log(dest_id, checkin, checkout, lang, currency, guests)
+
+  const [link, setLink] = useState(`hotels/prices?destination_id=${dest_id}&checkin=${checkin}&checkout=${checkout}&lang=${lang}&currency=${currency}&landing_page=&partner_id=16&country_code=SG&guests=${guests}`);
+  const [Hotellink, setHotelLink] = useState(`hotels?destination_id=${dest_id}`);
+
+  useEffect(() => {
+    let link = `hotels/prices?destination_id=${dest_id}&checkin=${checkin}&checkout=${checkout}&lang=${lang}&currency=${currency}&landing_page=&partner_id=16&country_code=SG&guests=${guests}`
+    setLink(link)
+  }, [dest_id, checkin, checkout, lang, currency, guests])
+
+  useEffect(() => {
+    let link = `hotels?destination_id=${dest_id}`;
+    setHotelLink(link)
+  }, [dest_id])
+
 
   useEffect(() => {
     //parameters to try for true and array.length == 0 : 2023-08-01
     //parameters to try for false and array.length == 0 : 2018-08-01
-    //let link = "hotels/prices?destination_id=WD0M&checkin=2022-07-31&checkout=2022-08-01&lang=en_US&currency=SGD&landing_page=&partner_id=16&country_code=SG&guests=1"
-    let link = `hotels/prices?destination_id=${dest_id}&checkin=${checkin}&checkout=${checkout}&lang=${lang}&currency=${currency}&landing_page=&partner_id=16&country_code=SG&guests=${guests}`
     const data = axios.get(link).then(response => {
       //console.log(response); 
       setPrices(response.data.hotels); 
       setCompleted(response.data.completed); 
       setLength(response.data.hotels.length)});
-  },[])
+  },[link])
 
   const [hotels, setHotels] = useState([])
   useEffect(() => {
-    //let link = "hotels?destination_id=WD0M"
-    let link = `hotels?destination_id=${dest_id}`
-     const data = axios.get(link).then(response => {setHotels(response.data)})
-  },[])
+     const data = axios.get(Hotellink).then(response => {setHotels(response.data)})
+  },[Hotellink])
   
   //edit callback to prevent rendering
   let sorted_data = sort_data([prices,hotels]);

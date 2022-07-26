@@ -24,11 +24,18 @@ function Hi() {
   console.log(currency)
   console.log(guests)
 
+  const [link, setLink] = useState(`hotels/${hotel_id}/price?destination_id=${dest_id}&checkin=${checkin}&checkout=${checkout}&lang=${lang}&currency=${currency}&partner_id=16&country_code=SG&guests=${guests}`);
+
+  useEffect(() => {
+    let link = `hotels/${hotel_id}/price?destination_id=${dest_id}&checkin=${checkin}&checkout=${checkout}&lang=${lang}&currency=${currency}&partner_id=16&country_code=SG&guests=${guests}`;
+    setLink(link);
+  }, [hotel_id, dest_id, checkin, checkout, lang, currency, guests])
+
   useEffect(() => {
     //let link = "hotels?destination_id=WD0M"
-    let link = `hotels/${hotel_id}/price?destination_id=${dest_id}&checkin=${checkin}&checkout=${checkout}&lang=${lang}&currency=${currency}&partner_id=16&country_code=SG&guests=${guests}`
+    //let link = `hotels/${hotel_id}/price?destination_id=${dest_id}&checkin=${checkin}&checkout=${checkout}&lang=${lang}&currency=${currency}&partner_id=16&country_code=SG&guests=${guests}`
      const data = axios.get(link).then(response => {setPrice(response.data)})
-  },[])
+  },[link])
 
   console.log(price)
   
