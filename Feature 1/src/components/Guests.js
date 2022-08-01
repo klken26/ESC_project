@@ -1,20 +1,26 @@
-import React, { useState } from 'react'
-import "../App.css";
+import React, { useState } from "react";
 
-function Guests() {
-    const [adult, setAdult] = useState(null);
-    const [children, setChildren] = useState(null);
-    const [room, setRoom] = useState(null);
-    const handleChangeAdult = (event) => {
-      //match all non digit chars to empty string 
-        setAdult(event.target.value.replace(/\D/g, ''));
-    };
-    const handleChangeChildren = (event) => {
-      setChildren(event.target.value.replace(/\D/g, ''));
-    };
+function Guests(props) {
+  const {
+    setAdultHandler,
+    setChildrenHandler,
+    setRoomHandler,
+    room,
+    children,
+    adult,
+    formErrors,
+  } = props;
+
+  const handleChangeAdult = (event) => {
+    //match all non digit chars to empty string
+    setAdultHandler(event.target.value.replace(/\D/g, ""));
+  };
+  const handleChangeChildren = (event) => {
+    setChildrenHandler(event.target.value.replace(/\D/g, ""));
+  };
   const handleChangeRoom = (event) => {
-    setRoom(event.target.value.replace(/\D/g, ''));
-    };
+    setRoomHandler(event.target.value.replace(/\D/g, ""));
+  };
   // const handleValidateChangeRoom = (event) => {
   //   const re = /^[0-9\b]+$/;
   //       if (event.target.value === "" || re.test(event.target.value)) {
@@ -22,44 +28,50 @@ function Guests() {
   //       }
   //   }
 
-    return {
-      adult, children, room,
-      renderGuest: (
-        <div className='outerbox'>
-          <label for="rooms" className='labels'>Rooms</label>
-          <input 
-                id="rooms" 
-                type="int"  
-                className='boxesroom' 
-                onChange={handleChangeRoom}
-                value={room}
-                />
-          <br/>
-          <div>
-          <label for="adults" className='labels-adult'>Adults</label>
-          <input 
-                id="adults" 
-                type="int" 
-                className='boxesadult' 
-                onChange={handleChangeAdult}
-                value = {adult}
-              />
-            <br/>
-            {/* {state.adults} */}
-            </div>
-            <div>
-            <label for="children" className='labels'>Children</label>
-            <input 
-                id="children" 
-                type="int"
-                className='boxes' 
-                onChange={handleChangeChildren}
-                value = {children}
-                />
-            <br/>
-            {/* {state.children} */}
-            </div>
-        </div>
-    )}
+  return (
+    <div className="outerbox">
+      <label htmlFor="rooms" className="labels">
+        Rooms
+      </label>
+      <input
+        id="rooms"
+        type="int"
+        className="boxesroom"
+        onChange={handleChangeRoom}
+        value={room}
+      />
+      <br />
+      <p className="errors">{formErrors.room}</p>
+      <div>
+        <label htmlFor="adults" className="labels-adult">
+          Adults
+        </label>
+        <input
+          id="adults"
+          type="int"
+          className="boxesadult"
+          onChange={handleChangeAdult}
+          value={adult}
+        />
+        <br />
+        <p className="errors">{formErrors.adult}</p>
+        {/* {state.adults} */}
+      </div>
+      <div>
+        <label htmlFor="children" className="labels">
+          Children
+        </label>
+        <input
+          id="children"
+          type="int"
+          className="boxes"
+          onChange={handleChangeChildren}
+          value={children}
+        />
+        <br />
+        {/* {state.children} */}
+      </div>
+    </div>
+  );
 }
 export default Guests;
